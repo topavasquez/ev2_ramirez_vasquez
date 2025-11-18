@@ -35,7 +35,7 @@ export function Mesa() {
 
   function validarJuego() {
     if (cartas.length !== 12) {
-      alert("Necesitas exactamente 12 cartas para validar el juego de Carioca");
+      alert("se necesitan 12 cartas antes de validar el juego");
       return;
     }
     const conteoValores = {};
@@ -60,7 +60,7 @@ export function Mesa() {
 
     if (triosCompletos >= 3) {
       setValidar(true);
-      setMensajeResultado(`¡JUEGO VÁLIDO! ${triosCompletos} TRÍOS`);
+      setMensajeResultado(`¡JUEGO VALIDO! ${triosCompletos} TRIOS`);
       guardarJuegoEnFirebase();
     } else {
       setValidar(false);
@@ -70,13 +70,11 @@ export function Mesa() {
 
   async function guardarJuegoEnFirebase() {
     try {
-      // Crear una representación única del juego (ordenada para comparar)
       const juegoOrdenado = [...cartas]
         .map((c) => `${c.valor}-${c.pinta}`)
         .sort()
         .join(",");
 
-      // Verificar si el juego ya existe
       const q = query(
         collection(db, "carioca"),
         where("juegoId", "==", juegoOrdenado)
@@ -88,16 +86,15 @@ export function Mesa() {
         return;
       }
 
-      // Guardar el juego en Firebase
+      // guardar el juego en Firebase
       await addDoc(collection(db, "carioca"), {
         cartas: cartas.map((c) => ({ valor: c.valor, pinta: c.pinta })),
         juegoId: juegoOrdenado,
         fecha: new Date().toISOString(),
       });
 
-      alert("¡Juego guardado exitosamente en Firebase!");
+      alert("el juego se guardo en firebase");
     } catch (error) {
-      console.error("Error al guardar en Firebase:", error);
       alert("Error al guardar el juego: " + error.message);
     }
   }
