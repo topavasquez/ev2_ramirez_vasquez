@@ -34,8 +34,8 @@ export function Mesa() {
   }
 
   function validarJuego() {
-    if (cartas.length !== 12) {
-      alert("se necesitan 12 cartas antes de validar el juego");
+    if (cartas.length < 9) {
+      alert("se necesitan al menos 9 cartas para validar el juego ");
       return;
     }
     const conteoValores = {};
